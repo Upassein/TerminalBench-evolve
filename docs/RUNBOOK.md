@@ -28,19 +28,22 @@ bash scripts/preflight.sh
 ```bash
 cd ~/bench/TerminalBench-evolve
 source ~/bench/tbench21-runs/env/tbench21.env
+bash scripts/smoke_oracle.sh
 ```
 
-First inspect the task-filter flags supported by the installed Harbor version:
+By default, this runs only one task using Harbor's `-l 1` / `--n-tasks 1`
+limit.
+
+To include a specific task name or glob:
 
 ```bash
-harbor run --help
+TBENCH_TASK_ARGS='-i <task-name-or-glob>' bash scripts/smoke_oracle.sh
 ```
 
-Then run one task by passing the matching filter through `TBENCH_TASK_ARGS`.
-For example, if your Harbor version supports `--task-name`:
+To run one task from the registry directly:
 
 ```bash
-TBENCH_TASK_ARGS='--task-name <task-id>' bash scripts/smoke_oracle.sh
+TBENCH_TASK_ARGS='-t <org/name>' bash scripts/smoke_oracle.sh
 ```
 
 To intentionally run the full dataset with the oracle agent:

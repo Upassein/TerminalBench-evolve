@@ -5,6 +5,7 @@ RUN_ROOT="${TBENCH_RUN_ROOT:-${HOME}/bench/tbench21-runs}"
 DATASET="${TBENCH_DATASET:-terminal-bench/terminal-bench-2-1}"
 TASK_ARGS="${TBENCH_TASK_ARGS:-}"
 ALLOW_FULL="${TBENCH_ALLOW_FULL:-0}"
+DEFAULT_SMOKE_ARGS="${TBENCH_DEFAULT_SMOKE_ARGS:--l 1}"
 LOG_DIR="${RUN_ROOT}/logs"
 STAMP="$(date +%Y%m%d-%H%M%S)"
 LOG_FILE="${LOG_DIR}/smoke_oracle_${STAMP}.log"
@@ -16,14 +17,8 @@ echo "[smoke] Run root: ${RUN_ROOT}"
 echo "[smoke] Log file: ${LOG_FILE}"
 
 if [ -z "${TASK_ARGS}" ] && [ "${ALLOW_FULL}" != "1" ]; then
-  echo "[smoke] Refusing to run the full dataset as a smoke test." >&2
-  echo "[smoke] First inspect supported task-filter flags on the server:" >&2
-  echo "[smoke]   harbor run --help" >&2
-  echo "[smoke] Then pass them via TBENCH_TASK_ARGS, for example:" >&2
-  echo "[smoke]   TBENCH_TASK_ARGS='--task-name <task-id>' bash scripts/smoke_oracle.sh" >&2
-  echo "[smoke] To intentionally run the full dataset with oracle:" >&2
-  echo "[smoke]   TBENCH_ALLOW_FULL=1 bash scripts/smoke_oracle.sh" >&2
-  exit 2
+  TASK_ARGS="${DEFAULT_SMOKE_ARGS}"
+  echo "[smoke] No task args provided; using default smoke args: ${TASK_ARGS}"
 fi
 
 cd "${RUN_ROOT}"

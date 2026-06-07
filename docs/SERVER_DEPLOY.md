@@ -104,8 +104,7 @@ Expected checks:
 cd ~/bench/TerminalBench-evolve
 conda activate tbench21
 source ~/bench/tbench21-runs/env/tbench21.env
-harbor run --help
-TBENCH_TASK_ARGS='--task-name <task-id>' bash scripts/smoke_oracle.sh
+bash scripts/smoke_oracle.sh
 ```
 
 Results should appear under:
