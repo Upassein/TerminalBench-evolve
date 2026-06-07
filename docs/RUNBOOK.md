@@ -83,6 +83,17 @@ sudo usermod -aG docker $USER
 
 Then log out and log back in.
 
+### Docker Compose Missing
+
+Harbor uses Docker Compose v2. If a run fails with `unknown flag:
+--project-name` or `docker compose version` fails, install the Compose plugin:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y docker-compose-plugin
+docker compose version
+```
+
 ### Harbor Not Found
 
 Check that `uv tool` binaries are on PATH:

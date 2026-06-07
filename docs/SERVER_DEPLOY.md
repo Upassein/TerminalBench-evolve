@@ -40,6 +40,16 @@ Verify Docker:
 ```bash
 docker run hello-world
 docker info
+docker compose version
+```
+
+Harbor uses Docker Compose v2. If `docker compose version` fails, install the
+Compose plugin:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y docker-compose-plugin
+docker compose version
 ```
 
 ## 3. Create Conda Environment

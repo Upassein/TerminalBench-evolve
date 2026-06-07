@@ -62,6 +62,14 @@ else
   failures=$((failures + 1))
 fi
 
+if docker compose version >/dev/null 2>&1; then
+  echo "[ok] docker compose plugin reachable"
+else
+  echo "[missing] docker compose plugin not reachable" >&2
+  echo "[hint] Install Docker Compose v2 plugin, then verify with: docker compose version" >&2
+  failures=$((failures + 1))
+fi
+
 if [ -n "${OPENAI_API_KEY:-}" ] || [ -n "${ANTHROPIC_API_KEY:-}" ] || [ -n "${GOOGLE_API_KEY:-}" ]; then
   echo "[ok] at least one model API key is set"
 else
