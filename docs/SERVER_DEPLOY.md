@@ -122,3 +122,24 @@ Results should appear under:
 ```text
 ~/bench/tbench21-runs/jobs/
 ```
+
+## 7. Terminus-2 With Local Model
+
+After oracle smoke passes, test Harbor's reference agent against your local
+OpenAI-compatible model endpoint:
+
+```bash
+cd ~/bench/TerminalBench-evolve
+conda activate tbench21
+source ~/bench/tbench21-runs/env/tbench21.env
+
+export TBENCH_MODEL="openai/<served-model-name>"
+export TBENCH_API_BASE="http://127.0.0.1:8000/v1"
+export OPENAI_API_KEY="${OPENAI_API_KEY:-dummy}"
+
+bash scripts/smoke_terminus2.sh
+```
+
+`TBENCH_MODEL` should match the model name exposed by your vLLM/SGLang/llama.cpp
+server. Keep the `openai/` prefix because Terminus-2 uses LiteLLM provider
+routing.

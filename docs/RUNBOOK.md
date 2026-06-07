@@ -52,6 +52,36 @@ To intentionally run the full dataset with the oracle agent:
 TBENCH_ALLOW_FULL=1 bash scripts/smoke_oracle.sh
 ```
 
+## Run Terminus-2 Model Smoke Test
+
+Use this after oracle smoke passes and your local/open-source model server is
+available through an OpenAI-compatible API.
+
+```bash
+cd ~/bench/TerminalBench-evolve
+conda activate tbench21
+source ~/bench/tbench21-runs/env/tbench21.env
+
+export TBENCH_MODEL="openai/<served-model-name>"
+export TBENCH_API_BASE="http://127.0.0.1:8000/v1"
+export OPENAI_API_KEY="${OPENAI_API_KEY:-dummy}"
+
+bash scripts/smoke_terminus2.sh
+```
+
+By default this runs one task with `-l 1`. To select a task:
+
+```bash
+TBENCH_TASK_ARGS='-i <task-name-or-glob>' bash scripts/smoke_terminus2.sh
+```
+
+Useful tuning knobs:
+
+```bash
+export TBENCH_MAX_TURNS=30
+export TBENCH_EXTRA_ARGS='--debug'
+```
+
 ## View Jobs
 
 ```bash

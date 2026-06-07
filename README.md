@@ -51,8 +51,18 @@ bash scripts/preflight.sh
 bash scripts/smoke_oracle.sh
 ```
 
+To test Harbor's reference agent with a local OpenAI-compatible model endpoint:
+
+```bash
+export TBENCH_MODEL="openai/<served-model-name>"
+export TBENCH_API_BASE="http://127.0.0.1:8000/v1"
+export OPENAI_API_KEY="dummy"
+bash scripts/smoke_terminus2.sh
+```
+
 ## Official References
 
 - Terminal-Bench 2.1 announcement: https://www.tbench.ai/news/terminal-bench-2-1
 - Harbor dataset: https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/6
 - Harbor run evals: https://www.harborframework.com/docs/run-jobs/run-evals
+- Terminus-2 agent: https://www.harborframework.com/docs/agents/terminus-2
