@@ -1,0 +1,14 @@
+name: tbench21
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - pip
+  - jq
+  - pandas
+  - numpy
+  - pyyaml
+  - rich
+  - matplotlib
+  - pip:
+      - harbor

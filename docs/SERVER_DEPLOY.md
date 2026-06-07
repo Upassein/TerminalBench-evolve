@@ -42,17 +42,32 @@ docker run hello-world
 docker info
 ```
 
-## 3. Install Python CLI Tools
+## 3. Create Conda Environment
 
 ```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-source ~/.bashrc
-
-uv tool install harbor
-uv tool install terminal-bench
+cd ~/bench/TerminalBench-evolve
+conda env create -f environment.yml
+conda activate tbench21
+python -V
 
 harbor --help
-tb --help || terminal-bench --help
+```
+
+If you prefer not to use `environment.yml`, create the environment manually:
+
+```bash
+conda create -n tbench21 python=3.12 -y
+conda activate tbench21
+python -V
+python -m pip install --upgrade pip
+python -m pip install --upgrade harbor
+```
+
+`uv` is also supported, but it is optional:
+
+```bash
+TBENCH_INSTALL_METHOD=uv bash scripts/install_tools.sh
+harbor --help
 ```
 
 ## 4. Configure Secrets
@@ -71,6 +86,7 @@ Do not commit real API keys.
 
 ```bash
 cd ~/bench/TerminalBench-evolve
+conda activate tbench21
 bash scripts/preflight.sh
 ```
 
@@ -86,8 +102,10 @@ Expected checks:
 
 ```bash
 cd ~/bench/TerminalBench-evolve
+conda activate tbench21
 source ~/bench/tbench21-runs/env/tbench21.env
-bash scripts/smoke_oracle.sh
+harbor run --help
+TBENCH_TASK_ARGS='--task-name <task-id>' bash scripts/smoke_oracle.sh
 ```
 
 Results should appear under:
@@ -95,4 +113,3 @@ Results should appear under:
 ```text
 ~/bench/tbench21-runs/jobs/
 ```
-

@@ -1,26 +1,41 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-echo "[install] Installing uv if needed"
-if ! command -v uv >/dev/null 2>&1; then
-  curl -LsSf https://astral.sh/uv/install.sh | sh
-  export PATH="${HOME}/.local/bin:${PATH}"
-fi
+INSTALL_METHOD="${TBENCH_INSTALL_METHOD:-pip}"
 
-echo "[install] Installing Harbor"
-uv tool install harbor
+echo "[install] Method: ${INSTALL_METHOD}"
 
-echo "[install] Installing Terminal-Bench CLI"
-uv tool install terminal-bench
+python - <<'PY'
+import sys
 
-echo "[install] Done"
-harbor --help >/dev/null
-if command -v tb >/dev/null 2>&1; then
-  tb --help >/dev/null
-elif command -v terminal-bench >/dev/null 2>&1; then
-  terminal-bench --help >/dev/null
+required = (3, 12)
+if sys.version_info < required:
+    found = ".".join(map(str, sys.version_info[:3]))
+    raise SystemExit(
+        f"[install] Python {found} is too old. Harbor requires Python >=3.12. "
+        "Create the conda env with: conda create -n tbench21 python=3.12 -y"
+    )
+PY
+
+if [ "${INSTALL_METHOD}" = "pip" ]; then
+  echo "[install] Installing into the active Python environment"
+  python -m pip install --upgrade pip
+  python -m pip install --upgrade harbor
+elif [ "${INSTALL_METHOD}" = "uv" ]; then
+  echo "[install] Installing uv if needed"
+  if ! command -v uv >/dev/null 2>&1; then
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    export PATH="${HOME}/.local/bin:${PATH}"
+  fi
+
+  echo "[install] Installing Harbor"
+  uv tool install harbor
 else
-  echo "[install] terminal-bench command was not found after installation" >&2
+  echo "[install] Unknown TBENCH_INSTALL_METHOD: ${INSTALL_METHOD}" >&2
+  echo "[install] Use 'pip' or 'uv'." >&2
   exit 1
 fi
 
+echo "[install] Done"
+harbor --help >/dev/null
+echo "[install] Harbor is ready"

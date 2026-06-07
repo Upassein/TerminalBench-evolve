@@ -34,14 +34,20 @@ check_cmd curl
 check_cmd docker
 check_cmd harbor
 
-if command -v tb >/dev/null 2>&1; then
-  echo "[ok] command: tb"
-elif command -v terminal-bench >/dev/null 2>&1; then
-  echo "[ok] command: terminal-bench"
-else
-  echo "[missing] command: tb or terminal-bench" >&2
-  failures=$((failures + 1))
-fi
+python - <<'PY'
+import sys
+
+if sys.version_info >= (3, 12):
+    print("[ok] python: " + sys.version.split()[0])
+else:
+    print(
+        "[missing] python: "
+        + sys.version.split()[0]
+        + " is too old; Harbor requires Python >=3.12",
+        file=sys.stderr,
+    )
+    raise SystemExit(1)
+PY
 
 check_dir "$RUN_ROOT"
 check_dir "$RUN_ROOT/jobs"
@@ -68,4 +74,3 @@ if [ "$failures" -gt 0 ]; then
 fi
 
 echo "[preflight] Passed"
-

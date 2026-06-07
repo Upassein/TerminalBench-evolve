@@ -45,6 +45,8 @@ vim ~/bench/tbench21-runs/env/tbench21.env
 source ~/bench/tbench21-runs/env/tbench21.env
 
 cd ~/bench/TerminalBench-evolve
+conda env create -f environment.yml
+conda activate tbench21
 bash scripts/preflight.sh
 bash scripts/smoke_oracle.sh
 ```
@@ -52,7 +54,5 @@ bash scripts/smoke_oracle.sh
 ## Official References
 
 - Terminal-Bench 2.1 announcement: https://www.tbench.ai/news/terminal-bench-2-1
-- Terminal-Bench installation: https://www.tbench.ai/docs/installation
 - Harbor dataset: https://hub.harborframework.com/datasets/terminal-bench/terminal-bench-2-1/6
 - Harbor run evals: https://www.harborframework.com/docs/run-jobs/run-evals
-
